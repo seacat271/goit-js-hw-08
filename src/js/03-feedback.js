@@ -9,8 +9,8 @@ const refs = {
 let formValueData = {};
 
 function firstLoadPage () {
-    if(localStorage.getItem("inputFormData")) {
-      formValueData = JSON.parse(localStorage.getItem("inputFormData"));
+    if(localStorage.getItem("feedback-form-state")) {
+      formValueData = JSON.parse(localStorage.getItem("feedback-form-state"));
       let {email = "", message = ""} = formValueData;
         refs.message.value = message;
         refs.email.value = email;
@@ -19,13 +19,17 @@ function firstLoadPage () {
 
 function onClickSubmitBtn (event) {
     event.preventDefault();
+    formValueData = {email: "", message: "", ...JSON.parse(localStorage.getItem("feedback-form-state"))}
+    console.log(formValueData)
     event.target.reset();
-    localStorage.removeItem("inputFormData");
+    localStorage.removeItem("feedback-form-state");
+    return formValueData = {};
+
 }
 
 function inputFormValue (event) {
     formValueData[event.target.name] = event.target.value;
-    localStorage.setItem("inputFormData", JSON.stringify(formValueData))
+    localStorage.setItem("feedback-form-state", JSON.stringify(formValueData))
 }
 
 firstLoadPage ()
